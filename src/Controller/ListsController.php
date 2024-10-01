@@ -7,12 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class HomeController extends AbstractController
+class ListsController extends AbstractController
 {
-    #[Route("/", name: 'homepage')]
-    public function index(): Response
+    #[Route("/lists", name: 'lists')]
+    public function lists(): Response
     {
-        return $this->render('index.html.twig');
+        return $this->render('lists.html.twig');
     }
 }
 

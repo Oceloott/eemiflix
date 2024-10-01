@@ -7,13 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class HomeController extends AbstractController
+class SubscriptionController extends AbstractController
 {
-    #[Route("/", name: 'homepage')]
-    public function index(): Response
+    #[Route("/subscription", name: 'subscription')]
+    public function subscription(): Response
     {
-        return $this->render('index.html.twig');
+        return $this->render('subscription.html.twig');
     }
 }
+
 
 ?>

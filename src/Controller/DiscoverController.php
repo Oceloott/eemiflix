@@ -7,12 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class HomeController extends AbstractController
+class DiscoverController extends AbstractController
 {
-    #[Route("/", name: 'homepage')]
-    public function index(): Response
+    #[Route("/discover", name: 'discover')]
+    public function discover(): Response
     {
-        return $this->render('index.html.twig');
+        return $this->render('discover.html.twig');
     }
 }
 

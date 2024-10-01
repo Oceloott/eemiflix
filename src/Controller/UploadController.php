@@ -7,13 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class HomeController extends AbstractController
+class UploadController extends AbstractController
 {
-    #[Route("/", name: 'homepage')]
-    public function index(): Response
+    #[Route("/upload", name: 'upload')]
+    public function upload(): Response
     {
-        return $this->render('index.html.twig');
+        return $this->render('upload.html.twig');
     }
 }
+
 
 ?>
