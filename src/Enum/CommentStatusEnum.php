@@ -7,8 +7,9 @@ namespace App\Enum;
 
 enum CommentStatusEnum: string
 {
-    case ACTIVE = 'active';
-    case DELETE = 'delete';
+    case VALIDATED = 'validated';
+    case WAITING = 'waiting';
+    case REJECTED = 'rejected';
 }
 
 ?>

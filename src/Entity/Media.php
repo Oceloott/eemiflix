@@ -9,6 +9,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'discr', type: 'string')]
+#[ORM\DiscriminatorMap(['serie' => Serie::class, 'movie' => Movie::class])]
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
 {
