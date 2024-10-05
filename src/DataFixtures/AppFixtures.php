@@ -3,6 +3,23 @@
 namespace App\DataFixtures;
 
 use App\Entity\Categorie;
+use App\Entity\Comment;
+use App\Entity\Episode;
+use App\Entity\Language;
+use App\Entity\Media;
+use App\Entity\Movie;
+use App\Entity\Playlist;
+use App\Entity\PlaylistMedia;
+use App\Entity\PlaylistSubscription;
+use App\Entity\Season;
+use App\Entity\Serie;
+use App\Entity\Subscription;
+use App\Entity\SubscriptionHistory;
+use App\Entity\User;
+use App\Entity\WatchHistory;
+use App\Enum\MediaMediaTypeEnum;
+use App\Enum\CommentStatusEnum;
+
 use App\Enum\UserAccountStatusEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -54,6 +71,7 @@ class AppFixtures extends Fixture
         $serie2->setReleaseAt(new \DateTime());
         $manager->persist($serie2);
 
+        
         $saison = new Season();
         $saison->setSerie($serie2);
         $saison->setSeasonNumber(1);
@@ -62,9 +80,27 @@ class AppFixtures extends Fixture
         $episode = new Episode();
         $episode->setSeason($saison);
         $episode->setTitle('Pilot');
-        $episode->setDuration(60);
+        $episode->setDuration(\DateTime::createFromFormat('H:i:s', '01:30:00'));
         $episode->setReleaseAt(new \DateTime());
         $manager->persist($episode);
+
+        $subscription = new Subscription();
+        $subscription->setName('Premium');
+        $subscription->setPrice(9.99);
+        $subscription->setDurationInMonths(1);
+        $manager->persist($subscription);
+
+        $user = new User();
+        $user->setUsername('baptiste');
+        $user->setEmail('fdsfdsdfs@exemple.fr');
+        $user->setPassword('password');
+        $user->setCurrentSubscription($subscription);
+        $user->setAccountStatus(UserAccountStatusEnum::ACTIVE);
+        $manager->persist($user);
+
+
+
+
 
         $playlist = new Playlist();
         $playlist->setName('My playlist');
@@ -79,15 +115,11 @@ class AppFixtures extends Fixture
         $playlistMedia->setAddedAt(new \DateTimeImmutable());
         $manager->persist($playlistMedia);
 
-        $subscription = new Subscription();
-        $subscription->setName($user);
-        $subscription->setPrice(9.99);
-        $subscription->setDurationInMonth(1);
-        $subscription->persist($subscription);
+
 
         $watchhistory = new WatchHistory();
-        $watchhistory->setMedia($film2);
         $watchhistory->setUsername($user);
+        $watchhistory->setMedia($film2);
         $watchhistory->setLastWatchedAt(new \DateTimeImmutable());
         $watchhistory->setNumberOfViews(5);
         $manager->persist($watchhistory);
@@ -98,7 +130,7 @@ class AppFixtures extends Fixture
         $subscriptionHistory->setUsername($user);
         $subscriptionHistory->setStartAt(new \DateTimeImmutable());
         $subscriptionHistory->setEndAt(new \DateTimeImmutable());
-        $subscriptionHistory->persist($subscriptionHistory);
+        $manager->persist($subscriptionHistory);
 
 
         $playlistSubscription = new PlaylistSubscription();
@@ -107,19 +139,13 @@ class AppFixtures extends Fixture
         $playlistSubscription->setSubscribedAt(new \DateTimeImmutable());
         $manager->persist($playlistSubscription);
 
-        $user = new User();
-        $user->setUsername('baptiste');
-        $user->setEmail('fdsfdsdfs@exemple.fr');
-        $user->setPassword('password');
-        $user->setCurrentSubscription($subscription);
-        $user->setAccountStatus(UserAccountStatusEnum::ACTIVE);
-        $manager->persist($user);
+
 
         $comment = new Comment();
         $comment->setUsername($user);
         $comment->setMedia($film2);
         $comment->setContent('This is a comment');
-        $comment->setCreatedAt(new \DateTimeImmutable());
+        $comment->setStatus(CommentStatusEnum::VALIDATED);
         $manager->persist($comment);
 
         $history = new WatchHistory();
@@ -131,7 +157,7 @@ class AppFixtures extends Fixture
 
         $language = new Language();
         $language->setName('English');
-        $language->setLabel('en');
+        $language->setCode('en');
         $manager->persist($language);
 
 
@@ -142,10 +168,10 @@ class AppFixtures extends Fixture
         ];
 
         foreach($tableau as $element) {
-            $element = new Categorie();
-            $element->setName($element[0]);
-            $element->setLabel($element[1]);
-            $manager->persist($element);
+            $categorie = new Categorie();
+            $categorie->setName($element[0]);
+            $categorie->setLabel($element[1]);
+            $manager->persist($categorie);
         }
 
         $manager->flush();

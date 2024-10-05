@@ -47,7 +47,7 @@ class PlaylistSubscription
         return $this->username;
     }
 
-    public function addUsername(User $username): static
+    public function setUsername(User $username): static
     {
         if (!$this->username->contains($username)) {
             $this->username->add($username);
