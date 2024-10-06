@@ -36,13 +36,13 @@ class User
     /**
      * @var Collection<int, SubscriptionHistory>
      */
-    #[ORM\OneToMany(targetEntity: SubscriptionHistory::class, mappedBy: 'username', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: SubscriptionHistory::class, mappedBy: 'username')]
     private Collection $subscriptionHistories;
 
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'username', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'username')]
     private Collection $comments;
 
     /**

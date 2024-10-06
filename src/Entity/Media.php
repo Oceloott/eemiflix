@@ -47,13 +47,13 @@ class Media
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'media', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'media')]
     private Collection $comments;
 
     /**
      * @var Collection<int, PlaylistMedia>
      */
-    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'media', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'media')]
     private Collection $playlistMedia;
 
     /**

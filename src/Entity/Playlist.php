@@ -26,19 +26,19 @@ class Playlist
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $updateAt = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updateAt = null;
 
     /**
      * @var Collection<int, PlaylistSubscription>
      */
-    #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'playlist', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'playlist')]
     private Collection $playlistSubscriptions;
 
     /**
      * @var Collection<int, PlaylistMedia>
      */
-    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'playlist', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'playlist')]
     private Collection $playlistMedia;
 
     public function __construct()
