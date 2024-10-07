@@ -30,7 +30,24 @@ class AppFixtures extends Fixture
     {
 
 
-        
+        $language = new Language();
+        $language->setName('English');
+        $language->setCode('en');
+        $manager->persist($language);
+
+
+
+        $tableau = [
+            ['Action', 'action'],
+            ['Comedy', 'comedy'],
+        ];
+
+        foreach($tableau as $element) {
+            $categorie = new Categorie();
+            $categorie->setName($element[0]);
+            $categorie->setLabel($element[1]);
+            $manager->persist($categorie);
+        }
 
         for($i = 0; $i < 10; $i++) {
             $film1 = new Movie();
@@ -39,6 +56,8 @@ class AppFixtures extends Fixture
             $film1->setShortDescription('The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.');
             $film1->setLongDescription('The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.');
             $film1->setReleaseAt(new \DateTime());
+            $film1->addCategory($categorie);
+            $film1->addLanguage($language);
             $film1->setMediaType(MediaMediaTypeEnum::MOVIE);
             $manager->persist($film1);
         }
@@ -48,6 +67,8 @@ class AppFixtures extends Fixture
         $film2->setShortDescription('The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.');
         $film2->setLongDescription('The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.');
         $film2->setReleaseAt(new \DateTime());
+        $film2->addCategory($categorie);
+        $film2->addLanguage($language);
         $film2->setMediaType(MediaMediaTypeEnum::MOVIE);
         $manager->persist($film2);
 
@@ -58,6 +79,8 @@ class AppFixtures extends Fixture
             $serie1->setShortDescription('A high school chemistry teacher turned methamphetamine producer partners with a former student to secure his family\'s future.');
             $serie1->setLongDescription('A high school chemistry teacher turned methamphetamine producer partners with a former student to secure his family\'s future.');
             $serie1->setMediaType(MediaMediaTypeEnum::SERIE);
+            $serie1->addCategory($categorie);
+            $serie1->addLanguage($language);
             $serie1->setReleaseAt(new \DateTime());
             $manager->persist($serie1);
         }
@@ -68,6 +91,8 @@ class AppFixtures extends Fixture
         $serie2->setShortDescription('A high school chemistry teacher turned methamphetamine producer partners with a former student to secure his family\'s future.');
         $serie2->setLongDescription('A high school chemistry teacher turned methamphetamine producer partners with a former student to secure his family\'s future.');
         $serie2->setMediaType(MediaMediaTypeEnum::SERIE);
+        $serie2->addCategory($categorie);
+        $serie2->addLanguage($language);
         $serie2->setReleaseAt(new \DateTime());
         $manager->persist($serie2);
 
@@ -147,6 +172,13 @@ class AppFixtures extends Fixture
         $comment->setContent('This is a comment');
         $comment->setStatus(CommentStatusEnum::VALIDATED);
         $manager->persist($comment);
+        
+        $comment2 = new Comment();
+        $comment2->setUsername($user);
+        $comment2->setMedia($film2);
+        $comment2->setContent('This is a comment');
+        $comment2->setStatus(CommentStatusEnum::VALIDATED);
+        $manager->persist($comment2);
 
         $history = new WatchHistory();
         $history-> setMedia($film2);
@@ -155,24 +187,7 @@ class AppFixtures extends Fixture
         $history->setNumberOfViews(5);
         $manager->persist($history);
 
-        $language = new Language();
-        $language->setName('English');
-        $language->setCode('en');
-        $manager->persist($language);
 
-
-
-        $tableau = [
-            ['Action', 'action'],
-            ['Comedy', 'comedy'],
-        ];
-
-        foreach($tableau as $element) {
-            $categorie = new Categorie();
-            $categorie->setName($element[0]);
-            $categorie->setLabel($element[1]);
-            $manager->persist($categorie);
-        }
 
         $manager->flush();
     }

@@ -19,6 +19,7 @@ class Serie extends Media
 
     public function __construct()
     {
+        parent::__construct();
         $this->seasons = new ArrayCollection();
     }
 
@@ -52,5 +53,10 @@ class Serie extends Media
         }
 
         return $this;
+    }
+
+    public function getType(): string
+    {
+        return 'serie';
     }
 }

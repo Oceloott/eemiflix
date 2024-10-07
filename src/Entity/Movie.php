@@ -8,6 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 class Movie extends Media
 {
-
+    public function getType(): string
+    {
+        return 'movie';
+    }
 
 }
