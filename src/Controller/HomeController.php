@@ -13,16 +13,7 @@ class HomeController extends AbstractController
     #[Route("/", name: 'homepage')]
     public function __invoke(MediaRepository $repository): Response
     {
-        // $media = $repository->find(1);
-        // $list = $repository->findAll();
-        // $repository->findBy(['title' => 'The Godfather']);
-
-        // dump($media,$list);
-
-        // $categories = $repository->findAll();
-        // dump($categories);
-
-        return $this->render('index.html.twig', ['media'=> $repository->findAll() ]);
+        return $this->render('index.html.twig', ['medias'=> $repository->findAll() ]);
     }
 }
 
