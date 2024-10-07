@@ -16,11 +16,6 @@ class PlaylistSubscription
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'playlistSubscriptions')]
-    private Collection $username;
 
     #[ORM\ManyToOne(inversedBy: 'playlistSubscriptions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -29,39 +24,17 @@ class PlaylistSubscription
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $subscribedAt = null;
 
-    public function __construct()
-    {
-        $this->username = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'playlistSubscriptions')]
+    private ?User $username = null;
+
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsername(): Collection
-    {
-        return $this->username;
-    }
-
-    public function setUsername(User $username): static
-    {
-        if (!$this->username->contains($username)) {
-            $this->username->add($username);
-        }
-
-        return $this;
-    }
-
-    public function removeUsername(User $username): static
-    {
-        $this->username->removeElement($username);
-
-        return $this;
-    }
+    
 
     public function getPlaylist(): ?Playlist
     {
@@ -83,6 +56,18 @@ class PlaylistSubscription
     public function setSubscribedAt(\DateTimeInterface $subscribedAt): static
     {
         $this->subscribedAt = $subscribedAt;
+
+        return $this;
+    }
+
+    public function getUsername(): ?User
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?User $username): static
+    {
+        $this->username = $username;
 
         return $this;
     }
