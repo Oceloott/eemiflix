@@ -13,7 +13,6 @@ use App\Entity\Media;
 class MovieController extends AbstractController
 {
 
-
     #[Route("/detail/{id}", name: 'detail_movie')]
     public function detail(Media $media): Response
     {
