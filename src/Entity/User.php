@@ -7,10 +7,12 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface,PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -61,6 +63,9 @@ class User
      */
     #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'username')]
     private Collection $playlistSubscriptions;
+
+    #[ORM\Column]
+    private array $roles = ['ROLE_USER'];
 
     public function __construct()
     {
@@ -274,6 +279,26 @@ class User
                 $playlistSubscription->setUsername(null);
             }
         }
+
+        return $this;
+    }
+    public function getUserIdentifier(): string
+    {
+        return $this->getEmail();
+    }
+    public function eraseCredentials(): void
+    {
+
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
 
         return $this;
     }

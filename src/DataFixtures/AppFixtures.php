@@ -19,13 +19,19 @@ use App\Entity\User;
 use App\Entity\WatchHistory;
 use App\Enum\MediaMediaTypeEnum;
 use App\Enum\CommentStatusEnum;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Enum\UserAccountStatusEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
     public function load(ObjectManager $manager): void
     {
 
@@ -35,14 +41,33 @@ class AppFixtures extends Fixture
         $language->setCode('en');
         $manager->persist($language);
 
-
-
-        $tableau = [
-            ['Action', 'action'],
-            ['Comedy', 'comedy'],
+        $languages = [
+            ['fr', 'Français'],
+            ['en', 'Anglais'],
+            ['es', 'Espagnol'],
+            ['de', 'Allemand'],
+            ['it', 'Italien'],
         ];
 
-        foreach($tableau as $element) {
+        foreach($languages as $element) {
+            $language = new Language();
+            $language->setName($element[1]);
+            $language->setCode($element[0]);
+            $manager->persist($language);
+        }
+
+
+
+        $categories = [
+            ['Action', 'Action'],
+            ['Comédie', 'Comédie'],
+            ['Drame', 'Drame'],
+            ['Horreur', 'Horreur'],
+            ['Science-fiction', 'Science-fiction'],
+            ['Thriller', 'Thriller'],
+        ];
+
+        foreach($categories as $element) {
             $categorie = new Categorie();
             $categorie->setName($element[0]);
             $categorie->setLabel($element[1]);
@@ -117,8 +142,9 @@ class AppFixtures extends Fixture
 
         $user = new User();
         $user->setUsername('baptiste');
-        $user->setEmail('fdsfdsdfs@exemple.fr');
-        $user->setPassword('password');
+        $user->setEmail('user@user.fr');
+        $hashedPassword = $this->passwordHasher->hashPassword($user, 'password');
+        $user->setPassword($hashedPassword);
         $user->setCurrentSubscription($subscription);
         $user->setAccountStatus(UserAccountStatusEnum::ACTIVE);
         $manager->persist($user);

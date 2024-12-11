@@ -73,16 +73,9 @@
 
         <section class="mt-9">
             <ul class="grid grid-cols-2 gap-y-5 sm:grid-cols-3 gap-x-5">
-{% include 'parts/movie_card.html.twig'%}
-{% include 'parts/movie_card.html.twig'%}
-{% include 'parts/movie_card.html.twig'%}
-{% include 'parts/movie_card.html.twig'%}
-{% include 'parts/movie_card.html.twig'%}
-{% include 'parts/movie_card.html.twig'%}
-{% include 'parts/movie_card.html.twig'%}
-{% include 'parts/movie_card.html.twig'%}
-{% include 'parts/movie_card.html.twig'%}
-
+            {% for media in medias %}
+                    {% include 'parts/movie_card.html.html.twig' %}
+            {% endfor %}
 
     
             </ul>

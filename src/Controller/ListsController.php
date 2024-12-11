@@ -12,7 +12,9 @@ class ListsController extends AbstractController
     #[Route("/lists", name: 'lists')]
     public function lists(): Response
     {
-        return $this->render('lists.html.twig');
+        return $this->render('lists.html.twig', [
+            'medias' => [],
+        ]);
     }
 }
 

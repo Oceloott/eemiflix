@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AuthController extends AbstractController
 {
-    #[Route("/login", name: 'auth_login')]
+    #[Route("/loginfsd", name: 'auth_login')]
     public function login(): Response
     {
         return $this->render('auth/login.html.twig');
@@ -38,9 +38,8 @@ class AuthController extends AbstractController
     {
         return $this->render('auth/confirm.html.twig');
     }
-    
-
 }
+
 
 
 ?>
