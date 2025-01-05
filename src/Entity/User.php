@@ -55,14 +55,17 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
 
 
 
-    #[ORM\OneToOne(mappedBy: 'username', cascade: ['persist', 'remove'])]
-    private ?WatchHistory $watchHistory = null;
+    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'username', cascade: ['persist', 'remove'])]
+    private Collection $watchHistories;
 
     /**
      * @var Collection<int, PlaylistSubscription>
      */
     #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'username')]
     private Collection $playlistSubscriptions;
+
+    #[ORM\Column(type: 'string', length: 100)]
+    private $resetToken;
 
     #[ORM\Column]
     private array $roles = ['ROLE_USER'];
@@ -73,6 +76,8 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         $this->playlists = new ArrayCollection();
         $this->playlistSubscriptions = new ArrayCollection();
+        $this->watchHistories = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -231,10 +236,13 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     }
 
 
-    public function getWatchHistory(): ?WatchHistory
-    {
-        return $this->watchHistory;
-    }
+/**
+ * @return Collection<int, WatchHistory>
+ */
+public function getWatchHistories(): Collection
+{
+    return $this->watchHistories;
+}
 
     public function setWatchHistory(?WatchHistory $watchHistory): static
     {
@@ -290,6 +298,17 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     {
 
     }
+    public function getResetToken(): ?string
+{
+    return $this->resetToken;
+}
+
+public function setResetToken(?string $resetToken): self
+{
+    $this->resetToken = $resetToken;
+
+    return $this;
+}
 
     public function getRoles(): array
     {
